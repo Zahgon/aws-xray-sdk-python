@@ -107,7 +107,7 @@ class Context:
         Store the input trace_entity to local context. It will overwrite all
         existing ones if there is any.
         """
-        setattr(self._local, 'entities', [trace_entity])
+        pass
 
     def clear_trace_entities(self):
         """
@@ -132,12 +132,8 @@ class Context:
 
     @property
     def context_missing(self):
-        return self._context_missing
+        pass
 
     @context_missing.setter
     def context_missing(self, value):
-        if value not in SUPPORTED_CONTEXT_MISSING:
-            log.warning('specified context_missing not supported, using default.')
-            return
-
-        self._context_missing = value
+        pass

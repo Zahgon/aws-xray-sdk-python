@@ -28,12 +28,4 @@ def patch():
 
 
 async def _xray_traced_aiobotocore(wrapped, instance, args, kwargs):
-    service = instance._service_model.metadata["endpointPrefix"]
-    result = await xray_recorder.record_subsegment_async(
-        wrapped, instance, args, kwargs,
-        name=service,
-        namespace='aws',
-        meta_processor=aws_meta_processor,
-    )
-
-    return result
+    pass

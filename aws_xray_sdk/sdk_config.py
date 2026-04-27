@@ -68,12 +68,4 @@ class SDKConfig:
 
         Environment variables AWS_XRAY_SDK_ENABLED overrides argument value.
         """
-        # Environment Variables take precedence over hardcoded configurations.
-        if cls.XRAY_ENABLED_KEY in os.environ:
-            cls.__SDK_ENABLED = cls.__get_enabled_from_env()
-        else:
-            if type(value) == bool:
-                cls.__SDK_ENABLED = value
-            else:
-                cls.__SDK_ENABLED = True
-                log.warning("Invalid parameter type passed into set_sdk_enabled(). Defaulting to True...")
+        pass

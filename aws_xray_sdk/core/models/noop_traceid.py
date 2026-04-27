@@ -18,6 +18,4 @@ class NoOpTraceId:
         """
         Convert TraceId object to a string.
         """
-        return "%s%s%s%s%s" % (NoOpTraceId.VERSION, NoOpTraceId.DELIMITER,
-                               self.start_time,
-                               NoOpTraceId.DELIMITER, self.__number)
+        pass

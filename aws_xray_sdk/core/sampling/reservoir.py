@@ -35,27 +35,18 @@ class Reservoir:
         the reservoir will continue using old quota until it
         expires or has a non-None quota/TTL in a future load.
         """
-        if quota is not None:
-            self._quota = quota
-        if TTL is not None:
-            self._TTL = TTL
-        if interval is not None:
-            self._report_interval = interval / 10
+        pass
 
     @property
     def quota(self):
-        return self._quota
+        pass
 
     @property
     def TTL(self):
-        return self._TTL
+        pass
 
     def _time_to_report(self):
-        if self._report_elapsed + 1 >= self._report_interval:
-            self._report_elapsed = 0
-            return True
-        else:
-            self._report_elapsed += 1
+        pass
 
     def _borrow_or_take(self, now, can_borrow):
         self._adjust_this_sec(now)

@@ -190,7 +190,7 @@ class AWSXRayRecorder:
         :param str name: the name of the segment
         :param dict segment_kwargs: remaining arguments passed directly to `begin_segment`
         """
-        return SegmentContextManager(self, name=name, **segment_kwargs)
+        pass
 
     def in_subsegment(self, name=None, **subsegment_kwargs):
         """
@@ -322,7 +322,7 @@ class AWSXRayRecorder:
 
         :param str name: the name of the subsegment.
         """
-        return self._begin_subsegment_helper(name, beginWithoutSampling=True)
+        pass
 
     def current_subsegment(self):
         """
@@ -385,24 +385,14 @@ class AWSXRayRecorder:
         :param str key: metadata key under specified namespace
         :param object value: any object that can be serialized into JSON string
         """
-        if not global_sdk_config.sdk_enabled():
-            return
-        entity = self.get_trace_entity()
-        if entity and entity.sampled:
-            entity.put_metadata(key, value, namespace)
+        pass
 
     def is_sampled(self):
         """
         Check if the current trace entity is sampled or not.
         Return `False` if no active entity found.
         """
-        if not global_sdk_config.sdk_enabled():
-            # Disabled SDK is never sampled
-            return False
-        entity = self.get_trace_entity()
-        if entity:
-            return entity.sampled
-        return False
+        pass
 
     def get_trace_entity(self):
         """
@@ -414,7 +404,7 @@ class AWSXRayRecorder:
         """
         A pass through method to ``context.set_trace_entity()``.
         """
-        self.context.set_trace_entity(trace_entity)
+        pass
 
     def clear_trace_entities(self):
         """
@@ -446,38 +436,7 @@ class AWSXRayRecorder:
     def record_subsegment(self, wrapped, instance, args, kwargs, name,
                           namespace, meta_processor):
 
-        subsegment = self.begin_subsegment(name, namespace)
-
-        exception = None
-        stack = None
-        return_value = None
-
-        try:
-            return_value = wrapped(*args, **kwargs)
-            return return_value
-        except Exception as e:
-            exception = e
-            stack = stacktrace.get_stacktrace(limit=self.max_trace_back)
-            raise
-        finally:
-            # No-op if subsegment is `None` due to `LOG_ERROR`.
-            if subsegment is not None:
-                end_time = time.time()
-                if callable(meta_processor):
-                    meta_processor(
-                        wrapped=wrapped,
-                        instance=instance,
-                        args=args,
-                        kwargs=kwargs,
-                        return_value=return_value,
-                        exception=exception,
-                        subsegment=subsegment,
-                        stack=stack,
-                    )
-                elif exception:
-                    subsegment.add_exception(exception, stack)
-
-                self.end_subsegment(end_time)
+        pass
 
     def _populate_runtime_context(self, segment, sampling_decision):
         if self._origin:
@@ -505,9 +464,7 @@ class AWSXRayRecorder:
         self.clear_trace_entities()
 
     def _stream_subsegment_out(self, subsegment):
-        log.debug("streaming subsegments...")
-        if subsegment.sampled:
-            self.emitter.send_entity(subsegment)
+        pass
 
     def _load_sampling_rules(self, sampling_rules):
 
@@ -526,97 +483,94 @@ class AWSXRayRecorder:
 
     @property
     def enabled(self):
-        return self._enabled
+        pass
 
     @enabled.setter
     def enabled(self, value):
-        self._enabled = value
+        pass
 
     @property
     def sampling(self):
-        return self._sampling
+        pass
 
     @sampling.setter
     def sampling(self, value):
-        self._sampling = value
+        pass
 
     @property
     def sampler(self):
-        return self._sampler
+        pass
 
     @sampler.setter
     def sampler(self, value):
-        self._sampler = value
+        pass
 
     @property
     def service(self):
-        return self._service
+        pass
 
     @service.setter
     def service(self, value):
-        self._service = value
+        pass
 
     @property
     def dynamic_naming(self):
-        return self._dynamic_naming
+        pass
 
     @dynamic_naming.setter
     def dynamic_naming(self, value):
-        if isinstance(value, str):
-            self._dynamic_naming = DefaultDynamicNaming(value, self.service)
-        else:
-            self._dynamic_naming = value
+        pass
 
     @property
     def context(self):
-        return self._context
+        pass
 
     @context.setter
     def context(self, cxt):
-        self._context = cxt
+        pass
 
     @property
     def emitter(self):
-        return self._emitter
+        pass
 
     @emitter.setter
     def emitter(self, value):
-        self._emitter = value
+        pass
 
     @property
     def streaming(self):
-        return self._streaming
+        pass
 
     @streaming.setter
     def streaming(self, value):
-        self._streaming = value
+        pass
 
     @property
     def streaming_threshold(self):
         """
         Proxy method to Streaming module's `streaming_threshold` property.
         """
-        return self.streaming.streaming_threshold
+        pass
 
     @streaming_threshold.setter
     def streaming_threshold(self, value):
         """
         Proxy method to Streaming module's `streaming_threshold` property.
         """
-        self.streaming.streaming_threshold = value
+        pass
 
     @property
     def max_trace_back(self):
-        return self._max_trace_back
+        pass
 
     @max_trace_back.setter
     def max_trace_back(self, value):
-        self._max_trace_back = value
+        pass
 
     @property
     def stream_sql(self):
-        return self._stream_sql
+        pass
 
     @stream_sql.setter
     def stream_sql(self, value):
-        self._stream_sql = value
+        pass

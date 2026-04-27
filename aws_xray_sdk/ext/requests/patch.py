@@ -22,35 +22,14 @@ def patch():
 
 def _xray_traced_requests(wrapped, instance, args, kwargs):
 
-    url = kwargs.get('url') or args[1]
-
-    return xray_recorder.record_subsegment(
-        wrapped, instance, args, kwargs,
-        name=get_hostname(url),
-        namespace='remote',
-        meta_processor=requests_processor,
-    )
+    pass
 
 
 def _inject_header(wrapped, instance, args, kwargs):
-    request = args[0]
-    headers = getattr(request, 'headers', {})
-    inject_trace_header(headers, xray_recorder.current_subsegment())
-    setattr(request, 'headers', headers)
-
-    return wrapped(*args, **kwargs)
+    pass
 
 
 def requests_processor(wrapped, instance, args, kwargs,
                        return_value, exception, subsegment, stack):
 
-    method = kwargs.get('method') or args[0]
-    url = kwargs.get('url') or args[1]
-
-    subsegment.put_http_meta(http.METHOD, method)
-    subsegment.put_http_meta(http.URL, strip_url(url))
-
-    if return_value is not None:
-        subsegment.put_http_meta(http.STATUS, return_value.status_code)
-    elif exception:
-        subsegment.add_exception(exception, stack)
+    pass

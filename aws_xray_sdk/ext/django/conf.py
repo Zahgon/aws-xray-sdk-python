@@ -46,10 +46,7 @@ class XRaySettings:
     @property
     def user_settings(self):
 
-        if not hasattr(self, '_user_settings'):
-            self._user_settings = getattr(django_settings, XRAY_NAMESPACE, {})
-
-        return self._user_settings
+        pass
 
     def __getattr__(self, attr):
 
@@ -74,10 +71,7 @@ def reload_settings(*args, **kwargs):
     """
     Reload X-Ray user settings upon Django server hot restart
     """
-    global settings
-    setting, value = kwargs['setting'], kwargs['value']
-    if setting == XRAY_NAMESPACE:
-        settings = XRaySettings(value)
+    pass
 
 
 setting_changed.connect(reload_settings)

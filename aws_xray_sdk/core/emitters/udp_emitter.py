@@ -53,18 +53,14 @@ class UDPEmitter:
 
     @property
     def ip(self):
-        return self._ip
+        pass
 
     @property
     def port(self):
-        return self._port
+        pass
 
     def _send_data(self, data):
         self._socket.sendto(data.encode('utf-8'), (self._ip, self._port))
 
     def _parse_address(self, daemon_address):
-        try:
-            val = daemon_address.split(':')
-            return val[0], int(val[1])
-        except Exception:
-            raise InvalidDaemonAddressException('Invalid daemon address %s specified.' % daemon_address)
+        pass

@@ -55,8 +55,8 @@ class DefaultStreaming:
 
     @property
     def streaming_threshold(self):
-        return self._threshold
+        pass
 
     @streaming_threshold.setter
     def streaming_threshold(self, value):
-        self._threshold = value
+        pass

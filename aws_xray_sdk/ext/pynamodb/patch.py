@@ -40,46 +40,9 @@ def patch():
 def _xray_traced_pynamodb(wrapped, instance, args, kwargs):
 
     # Check if it's a request to DynamoDB and return otherwise.
-    try:
-        service = args[0].headers['X-Amz-Target'].decode('utf-8').split('_')[0]
-    except KeyError:
-        return wrapped(*args, **kwargs)
-    if service.lower() != 'dynamodb':
-        return wrapped(*args, **kwargs)
-
-    return xray_recorder.record_subsegment(
-        wrapped, instance, args, kwargs,
-        name='dynamodb',
-        namespace='aws',
-        meta_processor=pynamodb_meta_processor,
-    )
+    pass
 
 
 def pynamodb_meta_processor(wrapped, instance, args, kwargs, return_value,
                             exception, subsegment, stack):
-    operation_name = args[0].headers['X-Amz-Target'].decode('utf-8').split('.')[1]
-    region = args[0].url.split('.')[1]
-
-    aws_meta = {
-        'operation': operation_name,
-        'region': region
-    }
-
-    # in case of client timeout the return value will be empty
-    if return_value is not None:
-        aws_meta['request_id'] = return_value.headers.get('x-amzn-RequestId')
-        subsegment.put_http_meta(http.STATUS, return_value.status_code)
-
-    if exception:
-        subsegment.add_error_flag()
-        subsegment.add_exception(exception, stack, True)
-
-    if PYNAMODB4:
-        resp = json.loads(return_value.text) if return_value else None
-    else:
-        resp = return_value.json() if return_value else None
-    _extract_whitelisted_params(subsegment.name, operation_name, aws_meta,
-                                [None, json.loads(args[0].body.decode('utf-8'))],
-                                None, resp)
-
-    subsegment.set_aws(aws_meta)
+    pass

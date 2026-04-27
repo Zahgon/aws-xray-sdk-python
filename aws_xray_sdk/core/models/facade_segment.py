@@ -121,4 +121,4 @@ class FacadeSegment(Segment):
         pass
 
     def _is_initializing(self, entityid, traceid, sampled):
-        return not entityid or not traceid or sampled is None
+        pass

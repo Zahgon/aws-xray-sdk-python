@@ -46,134 +46,33 @@ _ignored_add_default()
 
 def http_response_processor(wrapped, instance, args, kwargs, return_value,
                             exception, subsegment, stack):
-    xray_data = getattr(instance, _XRAY_PROP, None)
-    if not xray_data:
-        return
-
-    subsegment.put_http_meta(http.METHOD, xray_data.method)
-    subsegment.put_http_meta(http.URL, strip_url(xray_data.url))
-
-    if return_value:
-        subsegment.put_http_meta(http.STATUS, return_value.status)
-
-        # propagate to response object
-        xray_data = _XRay_Data('READ', xray_data.host, xray_data.url)
-        setattr(return_value, _XRAY_PROP, xray_data)
-
-    if exception:
-        subsegment.add_exception(exception, stack)
+    pass
 
 
 def _xray_traced_http_getresponse(wrapped, instance, args, kwargs):
-    xray_data = getattr(instance, _XRAY_PROP, None)
-    if not xray_data:
-        return wrapped(*args, **kwargs)
-
-    return xray_recorder.record_subsegment(
-        wrapped, instance, args, kwargs,
-        name=get_hostname(xray_data.url),
-        namespace='remote',
-        meta_processor=http_response_processor,
-    )
+    pass
 
 
 def http_send_request_processor(wrapped, instance, args, kwargs, return_value,
                                 exception, subsegment, stack):
-    xray_data = getattr(instance, _XRAY_PROP, None)
-    if not xray_data:
-        return
-
-    # we don't delete the attr as we can have multiple reads
-    subsegment.put_http_meta(http.METHOD, xray_data.method)
-    subsegment.put_http_meta(http.URL, strip_url(xray_data.url))
-
-    if exception:
-        subsegment.add_exception(exception, stack)
+    pass
 
 
 def _ignore_request(instance, hostname, url):
-    global _XRAY_IGNORE
-    module = instance.__class__.__module__
-    if module is None or module == str.__class__.__module__:
-        subclass = instance.__class__.__name__
-    else:
-        subclass = module + '.' + instance.__class__.__name__
-    for rule in _XRAY_IGNORE:
-        subclass_match = subclass == rule.subclass if rule.subclass is not None else True
-        host_match = fnmatch.fnmatch(hostname, rule.hostname) if rule.hostname is not None else True
-        url_match = url in rule.urls if rule.urls is not None else True
-        if url_match and host_match and subclass_match:
-            return True
-    return False
+    pass
 
 
 def _send_request(wrapped, instance, args, kwargs):
-    def decompose_args(method, url, body, headers, encode_chunked=False):
-        # skip any ignored requests
-        if _ignore_request(instance, instance.host, url):
-            return wrapped(*args, **kwargs)
-
-        # Only injects headers when the subsegment for the outgoing
-        # calls are opened successfully.
-        subsegment = None
-        try:
-            subsegment = xray_recorder.current_subsegment()
-        except SegmentNotFoundException:
-            pass
-        if subsegment:
-            inject_trace_header(headers, subsegment)
-
-        if issubclass(instance.__class__, urllib3.connection.HTTPSConnection):
-            ssl_cxt = getattr(instance, 'ssl_context', None)
-        elif issubclass(instance.__class__, httplib.HTTPSConnection):
-            ssl_cxt = getattr(instance, '_context', None)
-        else:
-            # In this case, the patcher can't determine which module the connection instance is from.
-            # We default to it to check ssl_context but may be None so that the default scheme would be
-            # (and may falsely be) http.
-            ssl_cxt = getattr(instance, 'ssl_context', None)
-        scheme = 'https' if ssl_cxt and type(ssl_cxt).__name__ == 'SSLContext' else 'http'
-        xray_url = '{}://{}{}'.format(scheme, instance.host, url)
-        xray_data = _XRay_Data(method, instance.host, xray_url)
-        setattr(instance, _XRAY_PROP, xray_data)
-
-        # we add a segment here in case connect fails
-        return xray_recorder.record_subsegment(
-            wrapped, instance, args, kwargs,
-            name=get_hostname(xray_data.url),
-            namespace='remote',
-            meta_processor=http_send_request_processor
-        )
-
-    return decompose_args(*args, **kwargs)
+    pass
 
 
 def http_read_processor(wrapped, instance, args, kwargs, return_value,
                         exception, subsegment, stack):
-    xray_data = getattr(instance, _XRAY_PROP, None)
-    if not xray_data:
-        return
-
-    # we don't delete the attr as we can have multiple reads
-    subsegment.put_http_meta(http.METHOD, xray_data.method)
-    subsegment.put_http_meta(http.URL, strip_url(xray_data.url))
-    subsegment.put_http_meta(http.STATUS, instance.status)
-
-    if exception:
-        subsegment.add_exception(exception, stack)
+    pass
 
 
 def _xray_traced_http_client_read(wrapped, instance, args, kwargs):
-    xray_data = getattr(instance, _XRAY_PROP, None)
-    if not xray_data:
-        return wrapped(*args, **kwargs)
-
-    return xray_recorder.record_subsegment(
-        wrapped, instance, args, kwargs,
-        name=get_hostname(xray_data.url),
-        namespace='remote',
-        meta_processor=http_read_processor
-    )
+    pass
 
 
 def patch():

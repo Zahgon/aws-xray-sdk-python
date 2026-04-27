@@ -59,21 +59,4 @@ class Throwable:
         return throwable_dict
 
     def _normalize_stack_trace(self, stack):
-        if stack is None:
-            return None
-
-        self.stack = []
-
-        for entry in stack:
-            path = entry[0]
-            line = entry[1]
-            label = entry[2]
-            if 'aws_xray_sdk/' in path:
-                continue
-
-            normalized = {}
-            normalized['path'] = os.path.basename(path).replace('\"', ' ').strip()
-            normalized['line'] = line
-            normalized['label'] = label.strip()
-
-            self.stack.append(normalized)
+        pass

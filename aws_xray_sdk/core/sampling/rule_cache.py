@@ -32,8 +32,7 @@ class RuleCache:
             self._load_rules(rules)
 
     def load_targets(self, targets_dict):
-        with self._lock:
-            self._load_targets(targets_dict)
+        pass
 
     def _load_rules(self, rules):
         oldRules = {}
@@ -55,13 +54,7 @@ class RuleCache:
         self.rules.sort(key=attrgetter('priority', 'name'))
 
     def _load_targets(self, targets_dict):
-        for rule in self.rules:
-            target = targets_dict.get(rule.name, None)
-            if target:
-                rule.reservoir.load_quota(target['quota'],
-                                          target['TTL'],
-                                          target['interval'])
-                rule.rate = target['rate']
+        pass
 
     def _is_expired(self, now):
         # The cache is treated as expired if it is never loaded.
@@ -71,16 +64,16 @@ class RuleCache:
 
     @property
     def rules(self):
-        return self._rules
+        pass
 
     @rules.setter
     def rules(self, v):
-        self._rules = v
+        pass
 
     @property
     def last_updated(self):
-        return self._last_updated
+        pass
 
     @last_updated.setter
     def last_updated(self, v):
-        self._last_updated = v
+        pass

@@ -17,19 +17,7 @@ def patch():
 
 def _xray_traced_connect(wrapped, instance, args, kwargs):
 
-    conn = wrapped(*args, **kwargs)
-    meta = {
-        'database_type': 'PostgreSQL',
-        'user': conn.user.decode('utf-8'),
-        'driver_version': 'Pg8000'
-    }
-
-    if hasattr(conn, '_server_version'):
-        version = getattr(conn, '_server_version')
-        if version:
-            meta['database_version'] = str(version)
-
-    return XRayTracedConn(conn, meta)
+    pass
 
 
 def unpatch():

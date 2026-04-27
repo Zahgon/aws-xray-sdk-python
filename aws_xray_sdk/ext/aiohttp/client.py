@@ -45,19 +45,7 @@ async def end_subsegment(session, trace_config_ctx, params):
 
 
 async def end_subsegment_with_exception(session, trace_config_ctx, params):
-    if trace_config_ctx.give_up:
-        return
-
-    subsegment = xray_recorder.current_subsegment()
-    subsegment.add_exception(
-        params.exception,
-        stacktrace.get_stacktrace(limit=xray_recorder._max_trace_back)
-    )
-
-    if isinstance(params.exception, LOCAL_EXCEPTIONS):
-        subsegment.namespace = LOCAL_NAMESPACE
-
-    xray_recorder.end_subsegment()
+    pass
 
 
 def aws_xray_trace_config(name=None):
@@ -68,10 +56,7 @@ def aws_xray_trace_config(name=None):
     """
 
     def _trace_config_ctx_factory(trace_request_ctx):
-        return SimpleNamespace(
-            name=name,
-            trace_request_ctx=trace_request_ctx
-        )
+        pass
 
     trace_config = aiohttp.TraceConfig(trace_config_ctx_factory=_trace_config_ctx_factory)
     trace_config.on_request_start.append(begin_subsegment)

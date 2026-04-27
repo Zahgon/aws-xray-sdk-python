@@ -31,46 +31,23 @@ class DaemonConfig:
             raise InvalidDaemonAddressException('Invalid daemon address %s specified.' % val)
 
     def _parse_single_form(self, val):
-        try:
-            configs = val.split(':')
-            self._udp_ip = configs[0]
-            self._udp_port = int(configs[1])
-            self._tcp_ip = configs[0]
-            self._tcp_port = int(configs[1])
-        except Exception:
-            raise InvalidDaemonAddressException('Invalid daemon address %s specified.' % val)
+        pass
 
     def _parse_double_form(self, val1, val2, origin):
-        try:
-            configs1 = val1.split(':')
-            configs2 = val2.split(':')
-            mapping = {
-                configs1[0]: configs1,
-                configs2[0]: configs2,
-            }
-
-            tcp_info = mapping.get('tcp')
-            udp_info = mapping.get('udp')
-
-            self._tcp_ip = tcp_info[1]
-            self._tcp_port = int(tcp_info[2])
-            self._udp_ip = udp_info[1]
-            self._udp_port = int(udp_info[2])
-        except Exception:
-            raise InvalidDaemonAddressException('Invalid daemon address %s specified.' % origin)
+        pass
 
     @property
     def udp_ip(self):
-        return self._udp_ip
+        pass
 
     @property
     def udp_port(self):
-        return self._udp_port
+        pass
 
     @property
     def tcp_ip(self):
-        return self._tcp_ip
+        pass
 
     @property
     def tcp_port(self):
-        return self._tcp_port
+        pass

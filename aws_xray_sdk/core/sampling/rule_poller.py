@@ -24,15 +24,7 @@ class RulePoller:
         poller_thread.start()
 
     def _worker(self):
-        frequency = 1
-        while True:
-            if self._time_elapsed >= self._time_to_wait:
-                self._refresh_cache()
-                self._time_elapsed = 0
-                self._reset_time_to_wait()
-            else:
-                time.sleep(frequency)
-                self._time_elapsed = self._time_elapsed + frequency
+        pass
 
     def wake_up(self):
         """
@@ -40,17 +32,10 @@ class RulePoller:
         regardless of the polling interval.
         This method is intended to be used by ``TargetPoller`` only.
         """
-        self._time_elapsed = self._time_to_wait + 1000
+        pass
 
     def _refresh_cache(self):
-        try:
-            now = int(time.time())
-            new_rules = self._connector.fetch_sampling_rules()
-            if new_rules:
-                self._cache.load_rules(new_rules)
-                self._cache.last_updated = now
-        except Exception:
-            log.error("Encountered an issue while polling sampling rules.", exc_info=True)
+        pass
 
     def _reset_time_to_wait(self):
         """
@@ -58,4 +43,4 @@ class RulePoller:
         to ensure the calls eventually get evenly distributed over
         the 5 minute window.
         """
-        self._time_to_wait = DEFAULT_INTERVAL + self._random.random() * 5
+        pass

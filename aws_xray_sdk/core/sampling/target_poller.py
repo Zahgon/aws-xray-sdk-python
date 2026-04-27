@@ -25,24 +25,10 @@ class TargetPoller:
         poller_thread.start()
 
     def _worker(self):
-        while True:
-            try:
-                time.sleep(self._interval + self._get_jitter())
-                self._do_work()
-            except Exception:
-                log.error("Encountered an issue while polling targets.", exc_info=True)
+        pass
 
     def _do_work(self):
-        candidates = self._get_candidates(self._cache.rules)
-        if not candidates:
-            log.debug('There is no sampling rule statistics to report. Skipping')
-            return None
-        targets, rule_freshness = self._connector.fetch_sampling_target(candidates)
-        self._cache.load_targets(targets)
-
-        if rule_freshness > self._cache.last_updated:
-            log.info('Performing out-of-band sampling rule polling to fetch updated rules.')
-            self._rule_poller.wake_up()
+        pass
 
     def _get_candidates(self, all_rules):
         """
@@ -50,11 +36,7 @@ class TargetPoller:
         1. The report time hasn't come(some rules might have larger report intervals).
         2. The rule is never matched.
         """
-        candidates = []
-        for rule in all_rules:
-            if rule.ever_matched() and rule.time_to_report():
-                candidates.append(rule)
-        return candidates
+        pass
 
     def _get_jitter(self):
         """
@@ -62,4 +44,4 @@ class TargetPoller:
         to ensure all poller calls eventually get evenly distributed
         over the polling interval window.
         """
-        return self._random.random() / self._interval
+        pass

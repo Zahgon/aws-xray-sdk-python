@@ -87,25 +87,4 @@ def task_factory(loop, coro):
     task and the current task has a context then share that context
     with the new task
     """
-    task = asyncio.Task(coro, loop=loop)
-    if task._source_traceback:  # flake8: noqa
-        del task._source_traceback[-1]  # flake8: noqa
-
-    # Share context with new task if possible
-    current_task = asyncio.current_task(loop=loop)
-    if current_task is not None and hasattr(current_task, 'context'):
-        if current_task.context.get('entities'):
-            # NOTE: (enowell) Because the `AWSXRayRecorder`'s `Context` decides
-            # the parent by looking at its `_local.entities`, we must copy the entities
-            # for concurrent subsegments. Otherwise, the subsegments would be
-            # modifying the same `entities` list and sugsegments would take other
-            # subsegments as parents instead of the original `segment`.
-            #
-            # See more: https://github.com/aws/aws-xray-sdk-python/blob/0f13101e4dba7b5c735371cb922f727b1d9f46d8/aws_xray_sdk/core/context.py#L90-L101
-            new_context = copy.copy(current_task.context)
-            new_context['entities'] = [item for item in current_task.context['entities']]
-        else:
-            new_context = current_task.context
-        setattr(task, 'context', new_context)
-
-    return task
+    pass

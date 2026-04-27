@@ -83,13 +83,7 @@ class LambdaContext(Context):
         """
         For Lambda context, we additionally store the segment in the thread local.
         """
-        if self._is_subsegment(trace_entity):
-            segment = trace_entity.parent_segment
-        else:
-            segment = trace_entity
-
-        setattr(self._local, 'segment', segment)
-        setattr(self._local, 'entities', [trace_entity])
+        pass
 
     def get_trace_entity(self):
         self._refresh_context()
@@ -123,7 +117,7 @@ class LambdaContext(Context):
 
     @property
     def context_missing(self):
-        return None
+        pass
 
     @context_missing.setter
     def context_missing(self, value):

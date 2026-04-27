@@ -95,14 +95,14 @@ class TraceHeader:
         """
         Return trace id of the header
         """
-        return self._root
+        pass
 
     @property
     def parent(self):
         """
         Return the parent segment id in the header
         """
-        return self._parent
+        pass
 
     @property
     def sampled(self):
@@ -110,11 +110,11 @@ class TraceHeader:
         Return the sampling decision in the header.
         It's 0 or 1 or '?'.
         """
-        return self._sampled
+        pass
 
     @property
     def data(self):
         """
         Return the arbitrary fields in the trace header.
         """
-        return self._data
+        pass

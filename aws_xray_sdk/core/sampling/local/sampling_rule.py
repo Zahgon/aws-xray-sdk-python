@@ -56,28 +56,28 @@ class SamplingRule:
         Defines fixed number of sampled segments per second.
         This doesn't count for sampling rate.
         """
-        return self._fixed_target
+        pass
 
     @property
     def rate(self):
         """
         A float number less than 1.0 defines the sampling rate.
         """
-        return self._rate
+        pass
 
     @property
     def host(self):
         """
         The host name of the reqest to sample.
         """
-        return self._host
+        pass
 
     @property
     def method(self):
         """
         HTTP method of the request to sample.
         """
-        return self._method
+        pass
 
     @property
     def path(self):
@@ -91,25 +91,14 @@ class SamplingRule:
         """
         Keeps track of used sampled targets within the second.
         """
-        return self._reservoir
+        pass
 
     @property
     def version(self):
         """
         Keeps track of used sampled targets within the second.
         """
-        return self._version
+        pass
 
     def _validate(self):
-        if self.fixed_target < 0 or self.rate < 0:
-            raise InvalidSamplingManifestError('All rules must have non-negative values for '
-                                               'fixed_target and rate')
-
-        if self._default:
-            if self.host or self.method or self.path:
-                raise InvalidSamplingManifestError('The default rule must not specify values for '
-                                                   'url_path, %s, or http_method', self._host_key)
-        else:
-            if not self.host or not self.method or not self.path:
-                raise InvalidSamplingManifestError('All non-default rules must have values for '
-                                                   'url_path, %s, and http_method', self._host_key)
+        pass

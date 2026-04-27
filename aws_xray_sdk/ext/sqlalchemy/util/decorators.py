@@ -26,48 +26,7 @@ def decorate_all_functions(function_decorator):
 
 def xray_on_call(cls, func):
     def wrapper(*args, **kw):
-        from ..query import XRayQuery, XRaySession
-        try:
-            from ...flask_sqlalchemy.query import XRaySignallingSession
-            has_sql_alchemy = True
-        except ImportError:
-            has_sql_alchemy = False
-
-        class_name = str(cls.__module__)
-        c = xray_recorder._context
-        sql = None
-        subsegment = None
-        if class_name == "sqlalchemy.orm.session":
-            for arg in args:
-                if isinstance(arg, XRaySession):
-                    sql = parse_bind(arg.bind)
-                if has_sql_alchemy and isinstance(arg, XRaySignallingSession):
-                    sql = parse_bind(arg.bind)
-        if class_name == 'sqlalchemy.orm.query':
-            for arg in args:
-                if isinstance(arg, XRayQuery):
-                    try:
-                        sql = parse_bind(arg.session.bind)
-                        if xray_recorder.stream_sql:
-                            sql['sanitized_query'] = str(arg)
-                    except Exception:
-                        sql = None
-        if sql is not None:
-            if getattr(c._local, 'entities', None) is not None:
-                # Strip URL of ? and following text
-                sub_name = strip_url(sql['url'])
-                subsegment = xray_recorder.begin_subsegment(sub_name, namespace='remote')
-            else:
-                subsegment = None
-
-        try:
-            res = func(*args, **kw)
-        finally:
-            if subsegment is not None:
-                subsegment.set_sql(sql)
-                subsegment.put_annotation("sqlalchemy", class_name+'.'+func.__name__)
-                xray_recorder.end_subsegment()
-        return res
+        pass
     return wrapper
 # URL Parse output
 # scheme	0	URL scheme specifier	scheme parameter

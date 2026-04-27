@@ -57,16 +57,7 @@ class SamplingRule:
         Take a snapshot of request/borrow/sampled count for reporting
         back to X-Ray back-end by ``TargetPoller`` and reset those counters.
         """
-        with self._lock:
-
-            stats = {
-                'request_count': self.request_count,
-                'borrow_count': self.borrow_count,
-                'sampled_count': self.sampled_count,
-            }
-
-            self._reset_statistics()
-            return stats
+        pass
 
     def merge(self, rule):
         """
@@ -84,14 +75,14 @@ class SamplingRule:
         Returns ``True`` if this sample rule has ever been matched
         with an incoming request within the reporting interval.
         """
-        return self._request_count > 0
+        pass
 
     def time_to_report(self):
         """
         Returns ``True`` if it is time to report sampling statistics
         of this rule to refresh quota information for its reservoir.
         """
-        return self.reservoir._time_to_report()
+        pass
 
     def increment_request_count(self):
         with self._lock:
@@ -106,46 +97,44 @@ class SamplingRule:
             self._sampled_count += 1
 
     def _reset_statistics(self):
-        self._request_count = 0
-        self._borrow_count = 0
-        self._sampled_count = 0
+        pass
 
     @property
     def rate(self):
-        return self._rate
+        pass
 
     @rate.setter
     def rate(self, v):
-        self._rate = v
+        pass
 
     @property
     def name(self):
-        return self._name
+        pass
 
     @property
     def priority(self):
-        return self._priority
+        pass
 
     @property
     def reservoir(self):
-        return self._reservoir
+        pass
 
     @reservoir.setter
     def reservoir(self, v):
-        self._reservoir = v
+        pass
 
     @property
     def can_borrow(self):
-        return self._can_borrow
+        pass
 
     @property
     def request_count(self):
-        return self._request_count
+        pass
 
     @property
     def borrow_count(self):
-        return self._borrow_count
+        pass
 
     @property
     def sampled_count(self):
-        return self._sampled_count
+        pass

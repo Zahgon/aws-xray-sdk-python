@@ -28,16 +28,4 @@ def patch():
 
 
 def _xray_traced_botocore(wrapped, instance, args, kwargs):
-    service = instance._service_model.metadata["endpointPrefix"]
-    if service == 'xray':
-        # skip tracing for SDK built-in sampling pollers
-        if ('GetSamplingRules' in args or
-            'GetSamplingTargets' in args or
-                'PutTraceSegments' in args):
-            return wrapped(*args, **kwargs)
-    return xray_recorder.record_subsegment(
-        wrapped, instance, args, kwargs,
-        name=service,
-        namespace='aws',
-        meta_processor=aws_meta_processor,
-    )
+    pass

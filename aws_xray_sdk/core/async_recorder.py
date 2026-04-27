@@ -58,7 +58,7 @@ class AsyncAWSXRayRecorder(AWSXRayRecorder):
         :param str name: the name of the segment
         :param dict segment_kwargs: remaining arguments passed directly to `begin_segment`
         """
-        return AsyncSegmentContextManager(self, name=name, **segment_kwargs)
+        pass
 
     def in_subsegment_async(self, name=None, **subsegment_kwargs):
         """
@@ -72,36 +72,4 @@ class AsyncAWSXRayRecorder(AWSXRayRecorder):
     async def record_subsegment_async(self, wrapped, instance, args, kwargs, name,
                                       namespace, meta_processor):
 
-        subsegment = self.begin_subsegment(name, namespace)
-
-        exception = None
-        stack = None
-        return_value = None
-
-        try:
-            return_value = await wrapped(*args, **kwargs)
-            return return_value
-        except Exception as e:
-            exception = e
-            stack = stacktrace.get_stacktrace(limit=self._max_trace_back)
-            raise
-        finally:
-            # No-op if subsegment is `None` due to `LOG_ERROR`.
-            if subsegment is not None:
-                end_time = time.time()
-                if callable(meta_processor):
-                    meta_processor(
-                        wrapped=wrapped,
-                        instance=instance,
-                        args=args,
-                        kwargs=kwargs,
-                        return_value=return_value,
-                        exception=exception,
-                        subsegment=subsegment,
-                        stack=stack,
-                    )
-                elif exception:
-                    if subsegment:
-                        subsegment.add_exception(exception, stack)
-
-                self.end_subsegment(end_time)
+        pass

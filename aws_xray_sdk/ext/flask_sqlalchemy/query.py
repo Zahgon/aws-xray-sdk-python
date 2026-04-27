@@ -41,13 +41,7 @@ class XRaySignallingSession(XRaySession):
 
     def get_bind(self, mapper=None, clause=None):
         # mapper is None if someone tries to just get a connection
-        if mapper is not None:
-            info = getattr(mapper.mapped_table, 'info', {})
-            bind_key = info.get('bind_key')
-            if bind_key is not None:
-                state = get_state(self.app)
-                return state.db.get_engine(self.app, bind=bind_key)
-        return XRaySession.get_bind(self, mapper, clause)
+        pass
 
 
 class XRayFlaskSqlAlchemy(SQLAlchemy):
@@ -57,4 +51,4 @@ class XRayFlaskSqlAlchemy(SQLAlchemy):
                          metadata, query_class, model_class)
 
     def create_session(self, options):
-        return sessionmaker(class_=XRaySignallingSession, db=self, **options)
+        pass

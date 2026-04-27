@@ -15,21 +15,13 @@ def patch():
 
 def _xray_traced_connect(wrapped, instance, args, kwargs):
 
-    conn = wrapped(*args, **kwargs)
-
-    meta = {}
-    meta['name'] = args[0]
-    meta['database_version'] = sqlite3.sqlite_version
-
-    traced_conn = XRayTracedSQLite(conn, meta)
-
-    return traced_conn
+    pass
 
 
 class XRayTracedSQLite(XRayTracedConn):
 
     def execute(self, *args, **kwargs):
-        return self.cursor().execute(*args, **kwargs)
+        pass
 
     def executemany(self, *args, **kwargs):
-        return self.cursor().executemany(*args, **kwargs)
+        pass

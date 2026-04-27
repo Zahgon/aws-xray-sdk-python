@@ -163,20 +163,7 @@ class Entity:
         :param str key: metadata key under specified namespace
         :param object value: any object that can be serialized into JSON string
         """
-        self._check_ended()
-
-        if not isinstance(namespace, str):
-            log.warning("ignoring non string type metadata namespace")
-            return
-
-        if namespace.startswith('AWS.'):
-            log.warning("Prefix 'AWS.' is reserved, drop metadata with namespace %s", namespace)
-            return
-
-        if self.metadata.get(namespace, None):
-            self.metadata[namespace][key] = value
-        else:
-            self.metadata[namespace] = {key: value}
+        pass
 
     def set_aws(self, aws_meta):
         """
@@ -310,4 +297,4 @@ class Entity:
         Generate a random 16-digit hex str.
         This is used for generating segment/subsegment id.
         """
-        return binascii.b2a_hex(os.urandom(8)).decode('utf-8')
+        pass

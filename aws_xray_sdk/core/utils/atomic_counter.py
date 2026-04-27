@@ -30,6 +30,4 @@ class AtomicCounter:
 
     def reset(self):
 
-        with self._lock:
-            self.value = self._initial
-            return self.value
+        pass

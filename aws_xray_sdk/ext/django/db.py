@@ -18,31 +18,13 @@ def patch_db():
 
 class DjangoXRayTracedCursor(XRayTracedCursor):
     def execute(self, query, *args, **kwargs):
-        if xray_recorder.stream_sql:
-            _previous_meta = copy.copy(self._xray_meta)
-            self._xray_meta['sanitized_query'] = query
-        result = super().execute(query, *args, **kwargs)
-        if xray_recorder.stream_sql:
-            self._xray_meta = _previous_meta
-        return result
+        pass
 
     def executemany(self, query, *args, **kwargs):
-        if xray_recorder.stream_sql:
-            _previous_meta = copy.copy(self._xray_meta)
-            self._xray_meta['sanitized_query'] = query
-        result = super().executemany(query, *args, **kwargs)
-        if xray_recorder.stream_sql:
-            self._xray_meta = _previous_meta
-        return result
+        pass
 
     def callproc(self, proc, args):
-        if xray_recorder.stream_sql:
-            _previous_meta = copy.copy(self._xray_meta)
-            self._xray_meta['sanitized_query'] = proc
-        result = super().callproc(proc, args)
-        if xray_recorder.stream_sql:
-            self._xray_meta = _previous_meta
-        return result
+        pass
 
 
 def _patch_cursor(cursor_name, conn):
@@ -65,21 +47,7 @@ def _patch_cursor(cursor_name, conn):
 
     def cursor(self, *args, **kwargs):
 
-        host = None
-        user = None
-
-        if hasattr(self, 'settings_dict'):
-            settings = self.settings_dict
-            host = settings.get('HOST', None)
-            user = settings.get('USER', None)
-
-        if host:
-            meta['name'] = host
-        if user:
-            meta['user'] = user
-
-        original_cursor = getattr(self, attr)(*args, **kwargs)
-        return DjangoXRayTracedCursor(original_cursor, meta)
+        pass
 
     setattr(conn, cursor_name, cursor)
 

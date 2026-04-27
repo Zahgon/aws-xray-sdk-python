@@ -119,8 +119,8 @@ class DefaultSampler:
 
     @property
     def xray_client(self):
-        return self._xray_client
+        pass
 
     @xray_client.setter
     def xray_client(self, v):
-        self._xray_client = v
+        pass

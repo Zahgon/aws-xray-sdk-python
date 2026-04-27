@@ -32,11 +32,7 @@ class XRayMiddleware:
             self.in_lambda_ctx = True
 
     def _urls_as_annotation(self):
-        if settings.URLS_AS_ANNOTATION == "LAMBDA" and self.in_lambda_ctx:
-            return True
-        elif settings.URLS_AS_ANNOTATION == "ALL":
-            return True
-        return False
+        pass
 
 
     # hooks for django version >= 1.10
@@ -119,11 +115,4 @@ class XRayMiddleware:
         Add exception information and fault flag to the
         current segment.
         """
-        if self.in_lambda_ctx:
-            segment = xray_recorder.current_subsegment()
-        else:
-            segment = xray_recorder.current_segment()
-        segment.put_http_meta(http.STATUS, 500)
-
-        stack = stacktrace.get_stacktrace(limit=xray_recorder._max_trace_back)
-        segment.add_exception(exception, stack)
+        pass

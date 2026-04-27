@@ -135,8 +135,7 @@ class Segment(Entity):
         set user of a segment. One segment can only have one user.
         User is indexed and can be later queried.
         """
-        super()._check_ended()
-        self.user = user
+        pass
 
     def set_service(self, service_info):
         """
